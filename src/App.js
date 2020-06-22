@@ -1,13 +1,14 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { HashRouter, Switch, Route , Redirect } from 'react-router-dom';
 import firebase from 'firebase';
+import withFirebaseAuth from 'react-with-firebase-auth';
 import config from './cofig/firebaseConfig'
 import Login from './pages/Login/Login';
 import Signup from './pages/Login/Signup';
 import Home from './pages/Home/Home';
 
 
-firebase.initializeApp(config);
+const firebaseApp = firebase.initializeApp(config);
 
 
 const ProtectedRoute = ({ component: Component, ...rest }) => {
@@ -24,11 +25,6 @@ const ProtectedRoute = ({ component: Component, ...rest }) => {
 
 
 function App() {
-  useEffect(() => {
-    firebase.auth().signInWithCustomToken('Berer' +localStorage.getItem("token"))
-      .then(res => console.log(res))
-      .catch(err => console.log(err))
-  },[])
   return (
     <HashRouter>
       <Switch>
@@ -40,4 +36,11 @@ function App() {
   );
 }
 
-export default App;
+// export default App;
+
+const firebaseAppAuth = firebaseApp.auth();
+
+export default withFirebaseAuth({
+  // providers,
+  firebaseAppAuth,
+})(App);

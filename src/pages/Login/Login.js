@@ -22,7 +22,7 @@ function Login(props) {
             setEmail(props.location.state.Email);
             setPassword(props.location.state.Password);
         }
-    }, [])
+    }, [props.location.state])
     return (
         <div>
             < Card style = {

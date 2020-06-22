@@ -1,6 +1,7 @@
-import React, { Component } from 'react'
-import firebase from 'firebase'
-import { withRouter } from 'react-router-dom'
+import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
+import { Button } from 'react-bootstrap';
+import firebase from 'firebase';
 class Home extends Component {
     componentDidMount() {
         // firebase.auth().currentUser.getIdToken()
@@ -9,12 +10,21 @@ class Home extends Component {
         //     })
         //     .catch(e => console.log(e))
     }
+    signout = () => {
+        firebase.auth().signOut()
+            .then(r => {
+                console.log('signout');
+                localStorage.setItem("isAuth", false)
+                this.props.history.push('/')
+            })
+    }
     render() {
         console.log(this.props)
         console.log(localStorage.getItem("token"))
         return (
             <div>
                 Home
+                 <Button onClick = {this.signout}>Signout</Button>
             </div>
         )
     }
